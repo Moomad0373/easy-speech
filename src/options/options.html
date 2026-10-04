@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easy speech — Settings</title>
+    <link rel="stylesheet" href="./options.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <header class="masthead">
+        <div class="masthead-inner">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <path d="M12 19v3" />
+            </svg>
+          </span>
+          <div class="masthead-text">
+            <h1>Easy speech <span class="muted">Settings</span></h1>
+            <p>Changes are stored in this browser and apply to new dictation sessions.</p>
+          </div>
+          <div class="masthead-actions">
+            <span id="save-status" class="save-status" role="status" aria-live="polite"></span>
+            <button id="save-settings" class="primary save-button">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <path d="M17 21v-8H7v8" />
+                <path d="M7 3v5h8" />
+              </svg>
+              Save settings
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="page">
+        <div id="storage-banner" class="storage-banner" role="alert" hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+          </svg>
+          <span>
+            Browser storage is not available in this context, so settings cannot be saved. Open the
+            settings through the extension (Settings button in the popup or
+            <code>chrome://extensions</code> → Easy speech → Details → Extension options).
+          </span>
+        </div>
+
+        <nav class="toc" aria-label="Settings sections">
+          <a href="#general">General</a>
+          <a href="#dictation">Dictation</a>
+          <a href="#transcription">Voice Transcribing</a>
+          <a href="#commands">Voice commands</a>
+          <a href="#shortcuts">Shortcuts</a>
+        </nav>
+
+        <section class="card" id="general">
+          <div class="card-head">
+            <h2>General</h2>
+            <p>Appearance and background behaviour.</p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="theme">Theme</label>
+            <div class="control">
+              <select id="theme">
+                <option value="system">System (auto)</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+              <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+          </div>
+
+          <label class="option">
+            <input type="checkbox" id="auto-restart" />
+            <span class="option-body">
+              <span class="option-title">Auto-restart recognition sessions</span>
+              <span class="option-hint">Keeps dictating when the browser ends a session on its own.</span>
+            </span>
+          </label>
+
+          <label class="option">
+            <input type="checkbox" id="status-indicator" />
+            <span class="option-body">
+              <span class="option-title">Show floating mic badge</span>
+              <span class="option-hint">Click to start or stop, drag anywhere to move it. It stays put.</span>
+            </span>
+          </label>
+        </section>
+
+        <section class="card" id="dictation">
+          <div class="card-head">
+            <h2>Dictation</h2>
+            <p>How speech is recognised and where it is typed.</p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="dictation-provider">Input mode</label>
+            <div class="control">
+              <select id="dictation-provider">
+                <option value="voiceTyping">Voice Typing — live browser dictation</option>
+                <option value="gemini">Voice Recording — Gemini 3.5 Transcribe</option>
+              </select>
+              <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+            <p class="note">
+              Voice Typing writes live results as you speak. Voice Recording captures a clip, then
+              sends it to Gemini for a more accurate transcript before inserting it.
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="language">Preferred language</label>
+            <div class="control">
+              <select id="language"></select>
+              <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+            <p class="note">Every language Chrome's speech service offers. On-device availability is shown in the popup.</p>
+          </div>
+
+          <div class="field">
+            <span class="label">Bookmarked languages</span>
+            <div id="language-bookmarks" class="bookmark-list"></div>
+            <p class="note">The switch shortcut cycles through the languages you tick here.</p>
+          </div>
+
+          <div class="field">
+            <span class="label">Switch language shortcut</span>
+            <div class="shortcut-row">
+              <kbd id="switch-shortcut-display">…</kbd>
+            </div>
+            <div class="shortcut-recorder">
+              <button type="button" id="custom-switch-shortcut" class="secondary shortcut-capture" aria-live="polite">Record shortcut</button>
+              <button type="button" id="clear-switch-shortcut" class="danger" hidden>Clear</button>
+            </div>
+            <p id="switch-shortcut-hint" class="note">
+              Click the button, then press the combination you want — for example
+              Ctrl + J. Hold Ctrl, Alt or ⌘ so it can never fire while you type.
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="recognition-mode">Recognition mode</label>
+            <div class="control">
+              <select id="recognition-mode">
+                <option value="auto">Auto — local when available</option>
+                <option value="local">Local (on-device) only</option>
+                <option value="cloud">Cloud only</option>
+              </select>
+              <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+            <p class="note">
+              Languages Chrome cannot run on-device (Persian, for example) always use cloud
+              (browser-managed) recognition, whatever this says.
+            </p>
+          </div>
+
+          <label class="option">
+            <input type="checkbox" id="voice-commands" />
+            <span class="option-body">
+              <span class="option-title">Voice commands</span>
+              <span class="option-hint">Say “comma”, “period”, “new line”, «سمیکالون» and the matching punctuation is typed.</span>
+            </span>
+          </label>
+
+          <label class="option">
+            <input type="checkbox" id="numbers-as-digits" />
+            <span class="option-body">
+              <span class="option-title">Always type numbers as digits</span>
+              <span class="option-hint">«بیست و پنج» and “twenty five” become 25. Off by default.</span>
+            </span>
+          </label>
+        </section>
+
+        <section class="card" id="transcription">
+          <div class="card-head">
+            <h2>Voice Transcribing</h2>
+            <p>How recordings and audio files are transcribed by Gemini 3.5 Transcribe.</p>
+          </div>
+
+          <div class="howto">
+            <p>These three options apply to Voice Transcribing only — live Voice Typing is handled by the browser and has no equivalents.</p>
+            <ul>
+              <li><b>Language</b> — a hint that improves accuracy. <b>Automatic</b> lets the model detect the language itself and follow you when you switch languages mid-recording.</li>
+              <li><b>Mode</b> — <b>Verbatim</b> writes exactly what was said, keeping filler words and false starts. <b>Smart</b> removes the filler words and cleans up the formatting for readability.</li>
+              <li><b>Custom vocabulary</b> — terms, product names and technical jargon the model should recognise. Use it for words that are otherwise misheard.</li>
+            </ul>
+          </div>
+
+          <div class="field">
+            <label class="label" for="transcription-language">Language</label>
+            <div class="control">
+              <select id="transcription-language">
+                <option value="auto">Automatic — detect the language</option>
+              </select>
+              <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+            <p class="note">Automatic detects more than 85 languages and handles switching between them.</p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="transcription-mode">Mode</label>
+            <div class="control">
+              <select id="transcription-mode">
+                <option value="verbatim">Verbatim — exactly as spoken</option>
+                <option value="smart">Smart — clean up and reformat</option>
+              </select>
+              <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+            <p class="note">Verbatim is the default: nothing is removed from what you said.</p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="transcription-vocabulary">Custom vocabulary</label>
+            <textarea
+              id="transcription-vocabulary"
+              rows="3"
+              spellcheck="false"
+              autocomplete="off"
+              aria-describedby="transcription-vocabulary-status"
+              placeholder="Kubernetes, BigQuery, زیتکس, مهدی"></textarea>
+            <p id="transcription-vocabulary-status" class="note" aria-live="polite"></p>
+            <p class="note">Separate terms with commas. Each term is a phrase, proper noun or technical word the model should transcribe correctly.</p>
+          </div>
+
+          <div class="field">
+            <span class="label">Token usage</span>
+            <div class="usage-card" id="usage-card">
+              <p id="usage-last" class="usage-last">No transcription has reported token usage yet.</p>
+              <dl class="usage-rows" id="usage-rows">
+                <div class="usage-row">
+                  <dt>Today</dt>
+                  <dd id="usage-today">—</dd>
+                </div>
+                <div class="usage-row">
+                  <dt>Last 24 hours</dt>
+                  <dd id="usage-24h">—</dd>
+                </div>
+                <div class="usage-row">
+                  <dt>This month</dt>
+                  <dd id="usage-month">—</dd>
+                </div>
+                <div class="usage-row">
+                  <dt>All time</dt>
+                  <dd id="usage-all">—</dd>
+                </div>
+              </dl>
+              <details class="usage-detail" id="usage-detail" hidden>
+                <summary><span>Last request breakdown</span></summary>
+                <dl class="usage-fields" id="usage-fields"></dl>
+              </details>
+              <div class="usage-actions">
+                <button type="button" id="usage-reset" class="secondary">Reset counters</button>
+              </div>
+            </div>
+            <p id="usage-status" class="note" aria-live="polite"></p>
+            <p class="note">
+              Counted in this browser from what Gemini reported for each request. Audio is the
+              largest part of every request, so a longer recording costs more. Counters include
+              requests that failed — those still use quota.
+            </p>
+          </div>
+
+          <div class="field" id="recordings-field">
+            <span class="label" id="recordings-label">Saved recordings</span>
+            <div class="usage-card" id="recordings-card" role="group" aria-labelledby="recordings-label">
+              <p id="recordings-summary" class="usage-last">Checking for unsent recordings…</p>
+              <ul class="recording-list" id="recording-list"></ul>
+              <div class="recording-result" id="recording-result" hidden>
+                <span class="label" id="recording-result-label">Recovered transcript</span>
+                <p class="recording-text" id="recording-text" tabindex="0"></p>
+                <div class="usage-actions">
+                  <button type="button" id="recording-copy" class="primary">Copy transcript</button>
+                </div>
+              </div>
+              <div class="usage-actions">
+                <button type="button" id="recordings-clear" class="danger" hidden>Discard all</button>
+              </div>
+            </div>
+            <p id="recordings-status" class="note" aria-live="polite"></p>
+            <p class="note">
+              Every recording is saved on this computer before it is sent, and deleted as soon as the
+              transcript comes back. Anything still here failed to transcribe — you can send it again
+              instead of recording it a second time. These files never leave this browser unless you
+              retry them.
+            </p>
+          </div>
+
+          <p class="note">
+            Recordings are sent straight from this extension to Google's Gemini API, using your own key.
+            Nothing is routed through a server operated by the extension's author. The key is kept in this
+            browser's extension storage, is never sent anywhere except to Google as a request header, and is
+            never shown again after you save it.
+          </p>
+
+          <form id="gemini-credential-form" autocomplete="off">
+            <div class="field">
+              <label class="label" for="gemini-api-key">Google API key</label>
+              <input id="gemini-api-key" type="password" name="gemini-api-key" autocomplete="off" spellcheck="false" />
+              <p class="note key-help">
+                Create a key in
+                <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.
+                Google charges your own account for transcription, so a key with billing enabled will bill you.
+                Restrict the key to the Gemini API so it cannot be used for anything else.
+              </p>
+              <div class="command-form-actions">
+                <button type="submit" class="primary">Save API key</button>
+                <button type="button" id="test-gemini-key">Test key</button>
+                <button type="button" id="clear-gemini-key" class="danger" hidden>Remove key</button>
+              </div>
+              <p id="gemini-key-status" class="note" aria-live="polite"></p>
+              <p class="note note-caution">
+                Voice Typing does not need a key and does not use this mode. This mode needs your browser to be
+                able to reach <code>generativelanguage.googleapis.com</code>, which some networks and countries
+                block; where it is blocked, no key will make it work.
+              </p>
+            </div>
+          </form>
+
+          <div class="field">
+            <label class="label" for="gemini-model">Gemini model ID</label>
+            <input id="gemini-model" type="text" name="gemini-model" spellcheck="false" />
+            <p class="note">
+              The default is Gemini 3.5 Transcribe, the model these options are documented for.
+              Change this if your Google AI account exposes a different transcription model alias.
+            </p>
+          </div>
+        </section>
+
+        <section class="card" id="commands">
+          <div class="card-head">
+            <h2>Custom voice commands</h2>
+            <p>Map any spoken phrase to the text you want inserted.</p>
+          </div>
+
+          <div class="howto">
+            <p>When the transcript contains a phrase, its replacement is inserted instead of the spoken words.</p>
+            <ul>
+              <li><b>Say this</b> — the phrase that triggers the command. Multi-word phrases match exactly, case-insensitively.</li>
+              <li><b>Type this</b> — what gets inserted. Use <code>\n</code> for a line break and <code>\t</code> for a tab.</li>
+              <li>Short punctuation replacements hug the previous word automatically.</li>
+              <li>Leave <b>Type this</b> empty to insert nothing (mutes the phrase).</li>
+              <li>Custom commands work in every language and override the built-in ones.</li>
+              <li>Examples: <i>eye packet → iPacket</i>, <i>ایمیل من → you@example.com</i>, <i>امضا → \n—\nعلی</i>.</li>
+            </ul>
+          </div>
+
+          <form id="command-form" class="command-form" autocomplete="off">
+            <div class="command-fields">
+              <div class="field">
+                <label class="label" for="command-phrase">Say this</label>
+                <input id="command-phrase" type="text" placeholder="phrase" required />
+              </div>
+              <span class="command-arrow" aria-hidden="true">→</span>
+              <div class="field">
+                <label class="label" for="command-replacement">Type this</label>
+                <input id="command-replacement" type="text" placeholder="replacement (supports \n)" />
+              </div>
+            </div>
+            <div class="command-form-actions">
+              <button type="submit" id="command-submit" class="primary">Add command</button>
+              <button type="button" id="command-cancel" class="secondary" hidden>Cancel edit</button>
+            </div>
+          </form>
+
+          <details class="bulk" id="bulk">
+            <summary>
+              <span>Bulk add / replace</span>
+              <span class="bulk-hint">one command per line: <code>phrase =&gt; replacement</code></span>
+            </summary>
+            <div class="bulk-body">
+              <textarea id="bulk-commands" rows="5" spellcheck="false"></textarea>
+              <button type="button" id="bulk-apply" class="secondary">Replace all with these</button>
+            </div>
+          </details>
+
+          <div class="commands-header">
+            <span class="label">Your commands (<span id="commands-count">0</span>)</span>
+          </div>
+          <div class="table-wrap">
+            <table class="commands-table">
+              <thead>
+                <tr><th>Say this</th><th></th><th>Type this</th><th></th></tr>
+              </thead>
+              <tbody id="commands-body"></tbody>
+            </table>
+          </div>
+          <p id="commands-empty" class="note">No custom commands yet — add one above.</p>
+        </section>
+
+        <section class="card" id="shortcuts">
+          <div class="card-head">
+            <h2>Keyboard shortcut</h2>
+            <p>Chrome manages the key assignments.</p>
+          </div>
+
+          <div class="shortcut-row">
+            <span class="label">Dictation shortcut</span>
+            <kbd id="shortcut-display">…</kbd>
+          </div>
+          <p class="note">Toggles listening in the current tab.</p>
+          <button id="edit-shortcut" class="secondary">Change shortcut in Chrome…</button>
+        </section>
+
+        <div class="save-bar">
+          <span id="save-status-bottom" class="save-status" role="status" aria-live="polite"></span>
+          <button id="save-settings-bottom" class="primary save-button">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+              <path d="M17 21v-8H7v8" />
+              <path d="M7 3v5h8" />
+            </svg>
+            Save settings
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./options.ts"></script>
+  </body>
+</html>

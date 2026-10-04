@@ -1,0 +1,866 @@
+@import '../shared/theme.css';
+
+body {
+  margin: 0;
+  font: 14px/1.55 system-ui, -apple-system, 'Segoe UI', Vazirmatn, Tahoma, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+.layout {
+  min-height: 100vh;
+}
+
+/* ---- masthead (sticky) ---------------------------------------------------- */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.masthead-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-6);
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius);
+  color: var(--accent-fg);
+  background: linear-gradient(145deg, var(--accent), var(--accent-hover));
+  box-shadow: var(--shadow-sm);
+}
+
+.masthead-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.masthead-text h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.masthead-text h1 .muted {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.masthead-text p {
+  margin: 1px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.masthead-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: none;
+}
+
+/* ---- page ---------------------------------------------------------------- */
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-6) var(--space-10);
+}
+
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.toc a {
+  padding: 5px 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--fg-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s var(--ease), color 0.15s var(--ease);
+}
+
+.toc a:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+/* ---- cards --------------------------------------------------------------- */
+
+.card {
+  margin-bottom: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: 84px;
+}
+
+.card-head {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-head h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.card-head p {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* ---- fields -------------------------------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+select,
+input[type='text'],
+input[type='password'],
+textarea {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--field-bg);
+  color: var(--fg);
+  font: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+
+textarea {
+  font: var(--font-mono);
+  resize: vertical;
+}
+
+select {
+  padding-right: 30px;
+  appearance: none;
+  cursor: pointer;
+}
+
+select:hover,
+input[type='text']:hover,
+input[type='password']:hover,
+textarea:hover {
+  border-color: var(--border-strong);
+}
+
+select:focus,
+input[type='text']:focus,
+input[type='password']:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+
+/* Drawn chevron; the control stays a native <select>. */
+.control {
+  position: relative;
+  display: block;
+}
+
+.control-chevron {
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  color: var(--muted);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.note {
+  margin: var(--space-1) 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Links inside a note sit on a muted ground. They use the full-strength text
+   colour plus an underline rather than the accent: --accent lands around 4.4:1
+   on the dark background, which is under the AA threshold at this size, and the
+   underline is the affordance that does not depend on colour at all. */
+.note a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.note a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Stands apart from the surrounding notes: the regional-access caveat is the
+   one thing a user in a blocked network must not skim past. */
+.note-caution {
+  color: var(--fg);
+}
+
+code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--kbd-bg);
+  font: var(--font-mono);
+}
+
+/* ---- token usage ---------------------------------------------------------- */
+
+.usage-card {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-sunken);
+}
+
+.usage-last {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.usage-rows {
+  display: grid;
+  gap: 0;
+  margin: var(--space-2) 0 0;
+  border-top: 1px solid var(--border);
+}
+
+.usage-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.usage-row dt {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* Counts are figures to compare down a column, not prose to read: monospace
+   and tabular so the digits line up between the four periods. */
+.usage-row dd {
+  margin: 0;
+  font: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg);
+  text-align: right;
+}
+
+.usage-detail {
+  margin-top: var(--space-2);
+}
+
+.usage-detail > summary {
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--muted);
+  list-style: none;
+}
+
+.usage-detail > summary::-webkit-details-marker {
+  display: none;
+}
+
+.usage-detail > summary::before {
+  content: '▸ ';
+  color: var(--border-strong);
+}
+
+.usage-detail[open] > summary::before {
+  content: '▾ ';
+}
+
+.usage-fields {
+  display: grid;
+  gap: 0;
+  margin: var(--space-2) 0 0;
+}
+
+.usage-field {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 3px 0;
+}
+
+.usage-field dt {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.usage-field dd {
+  margin: 0;
+  font: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg);
+}
+
+.usage-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-3);
+}
+
+/* ---- unsent recordings ---------------------------------------------------- */
+
+.recording-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recording-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.recording-detail {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.recording-meta {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.recording-reason {
+  font-size: 12px;
+  color: var(--danger);
+  overflow-wrap: anywhere;
+}
+
+.recording-reason[data-kind='muted'] {
+  color: var(--muted);
+}
+
+.recording-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-2);
+}
+
+.recording-result {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+
+/* The recovered transcript is the whole point of the retry, so it reads as
+   content rather than as UI chrome: selectable, and scrollable rather than
+   allowed to stretch the card to the length of a long recording. */
+.recording-text {
+  margin: var(--space-2) 0 0;
+  max-height: 12rem;
+  overflow-y: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ---- checkbox options ---------------------------------------------------- */
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-sunken);
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+
+.option + .option {
+  margin-top: var(--space-2);
+}
+
+.option:hover {
+  border-color: var(--border-strong);
+  background: var(--surface);
+}
+
+.option:has(input:checked) {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: var(--accent-soft);
+}
+
+.option input[type='checkbox'] {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.option-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.option-title {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.option-hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---- buttons ------------------------------------------------------------- */
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s var(--ease), border-color 0.15s var(--ease),
+    color 0.15s var(--ease), transform 0.12s var(--ease);
+}
+
+button.primary {
+  padding: 9px 15px;
+  border: 0;
+  background: var(--accent);
+  color: var(--toggle-fg);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+button.primary:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+button.secondary {
+  padding: 8px 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--fg);
+}
+
+button.secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+button.danger {
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
+  background: var(--surface);
+  color: var(--danger);
+}
+
+button.danger:hover {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+}
+
+.save-button {
+  padding: 10px 18px;
+  font-size: 13.5px;
+}
+
+/* ---- save status --------------------------------------------------------- */
+
+.save-status {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.save-status.ok {
+  color: var(--success);
+}
+
+.save-status.error {
+  color: var(--danger);
+}
+
+.save-status.info {
+  color: var(--warn);
+}
+
+.save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.storage-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid color-mix(in srgb, var(--danger) 40%, transparent);
+  border-radius: var(--radius);
+  background: var(--error-bg);
+  color: var(--error-fg);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.storage-banner svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+/* ---- language bookmarks -------------------------------------------------- */
+
+.bookmark-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  /* The catalog is 100+ languages — scroll instead of stretching the card. */
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: var(--space-1);
+}
+
+.bookmark-list .option {
+  margin-top: 0;
+}
+
+/* ---- shortcuts ----------------------------------------------------------- */
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.shortcut-row .label {
+  margin: 0;
+}
+
+kbd {
+  padding: 4px 9px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  color: var(--fg);
+  font: var(--font-mono);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.shortcut-recorder {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+button.shortcut-capture {
+  min-width: 220px;
+  font: var(--font-mono);
+}
+
+button.shortcut-capture.recording {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--fg);
+  animation: shortcut-pulse 1.4s ease-in-out infinite;
+}
+
+button.shortcut-capture.conflict {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+@keyframes shortcut-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ---- how-to -------------------------------------------------------------- */
+
+.howto {
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface-sunken);
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+.howto p {
+  margin: 0 0 var(--space-2);
+  color: var(--fg);
+}
+
+.howto ul {
+  margin: 0;
+  padding-inline-start: var(--space-5);
+}
+
+.howto li + li {
+  margin-top: 3px;
+}
+
+.howto b {
+  color: var(--fg);
+}
+
+/* ---- custom commands ----------------------------------------------------- */
+
+.command-form {
+  margin: var(--space-4) 0;
+}
+
+.command-fields {
+  display: grid;
+  grid-template-columns: 1fr auto 1.4fr;
+  gap: var(--space-3);
+  align-items: end;
+}
+
+.command-fields .field {
+  margin-bottom: 0;
+}
+
+.command-arrow {
+  padding-bottom: 9px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.command-form-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.bulk {
+  margin: var(--space-4) 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-sunken);
+}
+
+.bulk > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 10px var(--space-3);
+  color: var(--fg);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.bulk > summary::-webkit-details-marker {
+  display: none;
+}
+
+.bulk > summary:hover {
+  color: var(--accent);
+}
+
+.bulk-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.bulk-body {
+  padding: 0 var(--space-3) var(--space-3);
+}
+
+.bulk-body button {
+  margin-top: var(--space-2);
+}
+
+.commands-header {
+  margin-bottom: var(--space-2);
+}
+
+.table-wrap {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.commands-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.commands-table th {
+  text-align: start;
+  padding: 9px var(--space-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-sunken);
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.commands-table td {
+  padding: 9px var(--space-3);
+  border-bottom: 1px solid var(--border);
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.commands-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.commands-table tbody tr:hover {
+  background: var(--surface-sunken);
+}
+
+.commands-table td.arrow {
+  width: 26px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.commands-table td.actions {
+  width: 84px;
+  text-align: end;
+  white-space: nowrap;
+}
+
+.commands-table td.actions button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.commands-table td.actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.commands-table td.actions .danger:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+/* ---- responsive ---------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  .masthead-inner {
+    flex-wrap: wrap;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .masthead-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .page {
+    padding: var(--space-4) var(--space-4) var(--space-8);
+  }
+
+  .command-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .command-arrow {
+    display: none;
+  }
+}

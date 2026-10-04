@@ -1,0 +1,27 @@
+{
+  "name": "voice-type-extension",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal Chrome voice-typing extension for Persian and English using the browser's built-in Web Speech API.",
+  "type": "module",
+  "scripts": {
+    "icons": "node scripts/generate-icons.mjs",
+    "typecheck": "tsc --noEmit",
+    "build:popup": "vite build",
+    "build:content": "vite build --config vite.content.config.ts",
+    "build": "npm run icons && npm run typecheck && npm run build:popup && npm run build:content",
+    "pack": "node scripts/pack.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "smoke": "node scripts/smoke-test.mjs"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.2.7",
+    "fake-indexeddb": "^6.2.5",
+    "jsdom": "^29.1.1",
+    "puppeteer-core": "^25.10.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

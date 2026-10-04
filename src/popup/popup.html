@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easy speech</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="header">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <path d="M12 19v3" />
+          </svg>
+        </span>
+        <div class="brand-text">
+          <h1 class="brand-name">Easy speech</h1>
+          <p class="brand-tag">Dictate in any language</p>
+        </div>
+      </header>
+
+      <section class="panel" aria-labelledby="mode-label">
+        <div class="field">
+          <label class="label" for="dictation-provider">Input mode</label>
+          <div class="control">
+            <select id="dictation-provider">
+              <option value="voiceTyping">Voice Typing — live browser dictation</option>
+              <option value="gemini">Voice Recording — Gemini 3.5 Transcribe</option>
+            </select>
+            <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="language">Language</label>
+          <div class="control">
+            <select id="language"></select>
+            <svg class="control-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="mode-block">
+          <span class="label label-inline" id="mode-label">Recognition</span>
+          <span id="mode-badge" class="badge">…</span>
+        </div>
+        <p id="mode-note" class="note"></p>
+
+        <button id="install-pack" class="install" hidden>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3v12" />
+            <path d="m7 11 5 5 5-5" />
+            <path d="M5 21h14" />
+          </svg>
+          <span class="install-label">Install Language Pack</span>
+        </button>
+
+        <div id="source-switch" class="segmented" role="tablist" aria-label="Audio source" hidden>
+          <button id="source-record" class="segment" role="tab" type="button" aria-selected="true">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            </svg>
+            Record
+          </button>
+          <button id="source-upload" class="segment" role="tab" type="button" aria-selected="false">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 16V4" />
+              <path d="m7 9 5-5 5 5" />
+              <path d="M5 20h14" />
+            </svg>
+            Upload file
+          </button>
+        </div>
+      </section>
+
+      <section id="upload-panel" class="upload" aria-label="Transcribe an audio file" hidden>
+        <label class="dropzone" id="dropzone" for="audio-file">
+          <svg class="dropzone-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <path d="m7 10 5-5 5 5" />
+            <path d="M12 5v12" />
+          </svg>
+          <span class="dropzone-title">Choose an audio file</span>
+          <span class="dropzone-hint" id="dropzone-hint">or drop one here</span>
+          <input id="audio-file" type="file" hidden />
+        </label>
+
+        <div id="file-summary" class="file-summary" hidden>
+          <span class="file-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+          </span>
+          <span class="file-text">
+            <span class="file-name" id="file-name"></span>
+            <span class="file-meta" id="file-meta"></span>
+          </span>
+          <button id="file-clear" class="link-button" type="button">Remove</button>
+        </div>
+
+        <button id="transcribe-file" class="toggle" disabled>
+          <span class="toggle-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <path d="M12 19v3" />
+            </svg>
+          </span>
+          <span class="toggle-label">Transcribe file</span>
+        </button>
+        <p class="note upload-note">The file is sent for transcription and the text is inserted at your cursor. The file is never stored.</p>
+      </section>
+
+      <button id="toggle" class="toggle">
+        <span class="toggle-icon" aria-hidden="true">
+          <svg class="icon-mic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <path d="M12 19v3" />
+          </svg>
+          <svg class="icon-stop" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+            <rect x="6" y="6" width="12" height="12" rx="2.5" />
+          </svg>
+        </span>
+        <span class="toggle-label">Start Listening</span>
+      </button>
+
+      <div class="status-row">
+        <span class="status-dot" data-state="idle" aria-hidden="true"></span>
+        <p id="status" class="status">Status: Ready</p>
+      </div>
+      <p id="note" class="note-line" role="status" aria-live="polite" hidden></p>
+      <p id="error" class="error" role="alert" hidden></p>
+
+      <details id="transcripts" class="transcripts">
+        <summary>
+          <span>Last transcript</span>
+          <svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+        <div class="transcript-body">
+          <p class="transcript-row">
+            <span class="transcript-tag">Interim</span>
+            <span id="interim" class="transcript"></span>
+          </p>
+          <p class="transcript-row">
+            <span class="transcript-tag">Final</span>
+            <span id="final" class="transcript"></span>
+          </p>
+        </div>
+      </details>
+
+      <footer class="footer">
+        <button id="open-settings" class="secondary settings-button">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+          Settings
+        </button>
+      </footer>
+    </div>
+
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>
