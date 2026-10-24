@@ -38,3 +38,6 @@ Desktop.ini
 
 # Agent packaging config (tool-local)
 .zcodeignore
+
+# Agent tooling (opencode config + plugins)
+.opencode/
