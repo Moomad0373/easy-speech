@@ -141,6 +141,21 @@ const WORD_TABLES: Partial<Record<Language, Record<string, NumberWord>>> = {
   'en-US': ENGLISH_WORDS,
 };
 
+/**
+ * Locale families that share one table: en-GB, en-AU and the other English
+ * locales recognize the same number words as en-US, so every en-* locale
+ * falls back to the English table (same for fa-*). Without this, «twenty-five»
+ * spoken in English (UK) stayed words instead of becoming 25.
+ */
+const FAMILY_TABLES: Record<string, Language> = { en: 'en-US', fa: 'fa-IR' };
+
+function wordTable(language: Language): Record<string, NumberWord> | undefined {
+  const exact = WORD_TABLES[language];
+  if (exact) return exact;
+  const family = FAMILY_TABLES[language.split('-')[0] ?? ''];
+  return family !== undefined ? WORD_TABLES[family] : undefined;
+}
+
 /** Persian hundreds (دویست…) are value words but rank like صد. */
 const HUNDRED_VALUES = new Set([200, 300, 400, 500, 600, 700, 800, 900]);
 
@@ -184,7 +199,8 @@ function lookupNumberWords(
 ): NumberWord[] | null {
   const key = normalizeWord(core);
   if (Object.prototype.hasOwnProperty.call(words, key)) return [words[key]!];
-  if (language !== 'en-US' || !key.includes('-')) return null;
+  // Hyphenated English compounds ("twenty-five") — any en-* locale.
+  if (language.split('-')[0] !== 'en' || !key.includes('-')) return null;
   const parts = key.split('-');
   if (
     !parts.every((part) => Object.prototype.hasOwnProperty.call(words, part) && !words[part]!.connector)
@@ -198,7 +214,7 @@ export class NumberTransformer {
   /** Converts spoken number words in `text` to digits; everything else passes
    *  through untouched. Never throws. */
   transform(text: string, language: Language): string {
-    const words = WORD_TABLES[language];
+    const words = wordTable(language);
     if (!words || text.length === 0) return text;
 
     const tokens = text.split(/(\s+)/);

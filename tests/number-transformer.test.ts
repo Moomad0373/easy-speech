@@ -176,3 +176,15 @@ describe('NumberTransformer — general', () => {
     expect(transformer.transform('دو سیب و ده پرتقال', 'fa-IR')).toBe('2 سیب و 10 پرتقال');
   });
 });
+
+describe('NumberTransformer — English locale family', () => {
+  it('converts numbers for every en-* locale, including hyphenated compounds', () => {
+    expect(transformer.transform('twenty five', 'en-GB')).toBe('25');
+    expect(transformer.transform('twenty-five', 'en-GB')).toBe('25');
+    expect(transformer.transform('one hundred twenty three', 'en-AU')).toBe('123');
+  });
+
+  it('leaves other families untouched', () => {
+    expect(transformer.transform('eins zwei', 'de-DE')).toBe('eins zwei');
+  });
+});

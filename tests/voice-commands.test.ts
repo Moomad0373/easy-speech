@@ -205,3 +205,15 @@ describe('applyVoiceCommands — languages without a built-in table', () => {
     expect(applyVoiceCommands('hello comma world', 'en-US')).toBe('hello, world');
   });
 });
+
+describe('applyVoiceCommands — English locale family', () => {
+  it('applies the English table to every en-* locale, not just en-US', () => {
+    expect(applyVoiceCommands('hello comma world', 'en-GB')).toBe('hello, world');
+    expect(applyVoiceCommands('stop period', 'en-AU')).toBe('stop.');
+    expect(applyVoiceCommands('one new line two', 'en-IN')).toBe('one\ntwo');
+  });
+
+  it('keeps non-English families table-free (de-DE stays plain dictation)', () => {
+    expect(applyVoiceCommands('ein comma zwei', 'de-DE')).toBe('ein comma zwei');
+  });
+});

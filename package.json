@@ -1,5 +1,5 @@
 {
-  "name": "voice-type-extension",
+  "name": "easy-speech-extension",
   "version": "1.0.0",
   "private": true,
   "description": "Personal Chrome voice-typing extension for Persian and English using the browser's built-in Web Speech API.",

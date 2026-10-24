@@ -585,7 +585,7 @@ setTimeout(() => {
       file: 'screenshot-3-settings-dictation.png',
       selector: '#dictation',
       expect: ['Always type numbers as digits', 'Bookmarked languages'],
-      title: 'Two languages, one keystroke.',
+      title: 'Any language, one keystroke.',
       subtitle: 'Bookmark the languages you use and switch between them with a shortcut — mid-sentence, without stopping.',
       footNote: 'On-device when Chrome can, cloud otherwise — reported honestly per language.',
     },

@@ -1,6 +1,7 @@
-# Agent Instructions — Voice Type (fa/en)
+# Agent Instructions — Easy speech
 
-Voice typing Chrome extension (Manifest V3) for Persian and English dictation.
+Voice typing Chrome extension (Manifest V3) for dictation in 100+ languages,
+built for Persian and English first.
 Built and verified with the Chrome team's **Modern Web Guidance** skill pack
 (installed at `.zcode/skills/`).
 

@@ -126,6 +126,21 @@ const COMMAND_TABLES: Partial<Record<Language, Record<string, VoiceCommand>>> = 
   },
 };
 
+/**
+ * Locale families that share one table: en-GB, en-AU and en-IN recognize the
+ * same English command words as en-US, so every en-* locale falls back to the
+ * English table (same for fa-*). Without this, selecting English (UK) typed
+ * the spoken word "comma" instead of a comma.
+ */
+const FAMILY_TABLES: Record<string, Language> = { en: 'en-US', fa: 'fa-IR' };
+
+function builtInTable(language: Language): Record<string, VoiceCommand> {
+  const exact = COMMAND_TABLES[language];
+  if (exact) return exact;
+  const family = FAMILY_TABLES[language.split('-')[0] ?? ''];
+  return (family !== undefined ? COMMAND_TABLES[family] : undefined) ?? {};
+}
+
 /** Case/ZWNJ/Arabic-variant-insensitive form used for matching only. */
 function normalizeToken(token: string): string {
   return token
@@ -178,7 +193,7 @@ function buildCustomTable(
  */
 export function applyVoiceCommands(text: string, language: Language, custom: CustomVoiceCommand[] = []): string {
   const customTable = custom.length > 0 ? buildCustomTable(custom) : null;
-  const builtIn = COMMAND_TABLES[language] ?? {};
+  const builtIn = builtInTable(language);
   const commands: Record<string, VoiceCommand> = customTable
     ? { ...builtIn, ...customTable.table }
     : builtIn;

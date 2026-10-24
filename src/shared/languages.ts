@@ -28,12 +28,20 @@ function displayNamesFor(locale: string): Intl.DisplayNames | null {
 /**
  * Native label for any catalog language: each language is shown in its own
  * script (de-DE → "Deutsch", he-IL → "עברית"), with the raw code as fallback
- * so a never-thrown label is always available to the UI.
+ * so a never-thrown label is always available to the UI. Both DisplayNames
+ * calls are guarded: a label that cannot be resolved must never take the
+ * popup or the settings page down with it.
  */
 export function languageLabel(language: Language): string {
   const hand = HAND_LABELS[language];
   if (hand) return hand;
-  return displayNamesFor(language)?.of(language) ?? language;
+  const displayNames = displayNamesFor(language);
+  if (!displayNames) return language;
+  try {
+    return displayNames.of(language) ?? language;
+  } catch {
+    return language;
+  }
 }
 
 export interface LanguageOption {
